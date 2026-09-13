@@ -23,4 +23,6 @@ public class JobEvent {
     private UUID scheduleId;
     private String[] messages;
     private JobStatus jobStatus;
+
+    private String jobDefId;
 }

@@ -22,8 +22,8 @@ public class KafkaProducerSerializer {
         // 1. Bootstrap servers
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 
-        // 2. Acks config (start with "1", later test "all")
-        configProps.put(ProducerConfig.ACKS_CONFIG, "1");
+        // 2. Acks config (start with "1", later test "all") {ref - WIL-15-06-26.md}
+        configProps.put(ProducerConfig.ACKS_CONFIG, "all");
 
         // 3. Enable idempotence (forces acks=all and retries internally)
         configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);

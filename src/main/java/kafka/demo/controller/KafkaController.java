@@ -1,8 +1,12 @@
 package kafka.demo.controller;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
+import org.apache.kafka.clients.producer.Callback;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -84,7 +88,23 @@ public class KafkaController {
                                 jobEvent.getJobDefId(),
                                 jobEvent);
 
-                kafkaTemplate.send(record);
+                CompletableFuture<org.springframework.kafka.support.SendResult<String, Object>> future = kafkaTemplate
+                                .send(record);
+
+                // 2. Handle success/failure asynchronously using whenComplete
+                future.whenComplete((result, exception) -> {
+                        if (exception != null) {
+                                System.err.println("Failed to publish record to topic " + record.topic() +
+                                                " with key " + record.key());
+                                exception.printStackTrace();
+                        } else {
+                                System.out.printf(
+                                                "Successfully published message to topic %s [partition %d] at offset %d%n",
+                                                result.getRecordMetadata().topic(),
+                                                result.getRecordMetadata().partition(),
+                                                result.getRecordMetadata().offset());
+                        }
+                });
 
                 return ResponseCreater.<JobEvent>builder()
                                 .success(true)

@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -106,10 +107,23 @@ public class KafkaController {
                         }
                 });
 
+                // call a dummy method implemented to check the default error handler method of
+                // the kafka
+                // This is similar to the retry block that we have added for the Simple ECS
+                // batch of the Register Task Def.
+                testDefaultErrorHandler();
                 return ResponseCreater.<JobEvent>builder()
                                 .success(true)
                                 .messages(new String[] { "Job scheduled successfully" })
                                 .data(jobEvent)
                                 .build();
+        }
+
+        private void testDefaultErrorHandler() {
+
+                JobEvent jobEvent = new JobEvent();
+                ProducerRecord<String, Object> producerRecord = new ProducerRecord(KafkaUtils.KAFKA_JOB_TOPIC_NAME,
+                                jobEvent.toString());
+                kafkaTemplate.send(producerRecord);
         }
 }

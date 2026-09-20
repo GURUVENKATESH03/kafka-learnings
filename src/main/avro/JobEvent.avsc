@@ -1,0 +1,33 @@
+{
+  "namespace": "kafka.demo.avro",
+  "name": "JobEvent",
+  "type": "record",
+  "fields": [
+    {
+      "name": "jobId",
+      "type": "string",
+      "doc": "Unique identifier of the job"
+    },
+    {
+      "name": "scheduleId",
+      "type": "string",
+      "doc": "Unique identifier of the job schedule"
+    },
+    {
+      "name": "messages",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Optional message associated with the job"
+    },
+    {
+      "name": "jobStatus",
+      "type": "string",
+      "doc": "Current status of the job"
+    },
+    {
+      "name": "jobDefId",
+      "type": "string",
+      "doc": "Unique identifier of the job definition"
+    }
+  ]
+}

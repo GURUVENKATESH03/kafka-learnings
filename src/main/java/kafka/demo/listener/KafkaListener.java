@@ -1,5 +1,6 @@
 package kafka.demo.listener;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,11 @@ public class KafkaListener {
             log.error("Consumer thread was interrupted", e);
         }
         jobTable.jobStatusChanger(response, JobStatus.COMPLETED);
+        // throw new RuntimeException("Testing Kafka DLT");
     }
 
+    @org.springframework.kafka.annotation.KafkaListener(topics = KafkaUtils.KAFKA_JOB_TOPIC_DLQ_NAME)
+    public void jobDLQ(JobEvent event) {
+        log.info("A record has been pushed to DLQ after exponential retry, and the event is ={}", event.getJobId());
+    }
 }

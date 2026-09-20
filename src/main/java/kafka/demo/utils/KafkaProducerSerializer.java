@@ -1,42 +1,44 @@
-package kafka.demo.utils;
+// package kafka.demo.utils;
 
-import java.util.HashMap;
-import java.util.Map;
+// import java.util.HashMap;
+// import java.util.Map;
 
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
+// import org.apache.kafka.clients.producer.ProducerConfig;
+// import org.springframework.context.annotation.Bean;
+// import org.springframework.context.annotation.Configuration;
+// import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+// import org.springframework.kafka.core.KafkaTemplate;
+// import org.springframework.kafka.core.ProducerFactory;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ser.std.StringSerializer;
+// import org.apache.kafka.common.serialization.StringSerializer;
+// import org.springframework.kafka.support.serializer.JsonSerializer;
 
-@Configuration
-public class KafkaProducerSerializer {
-    @Bean
-    public ProducerFactory<String, Object> producerFactory() {
-        Map<String, Object> configProps = new HashMap<>();
+// @Configuration
+// public class KafkaProducerSerializer {
+// @Bean
+// public ProducerFactory<String, Object> producerFactory() {
+// Map<String, Object> configProps = new HashMap<>();
 
-        // 1. Bootstrap servers
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+// // 1. Bootstrap servers
+// configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 
-        // 2. Acks config (start with "1", later test "all") {ref - WIL-15-06-26.md}
-        configProps.put(ProducerConfig.ACKS_CONFIG, "all");
+// // 2. Acks config (start with "1", later test "all") {ref - WIL-15-06-26.md}
+// configProps.put(ProducerConfig.ACKS_CONFIG, "all");
 
-        // 3. Enable idempotence (forces acks=all and retries internally)
-        configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+// // 3. Enable idempotence (forces acks=all and retries internally)
+// configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
 
-        // 4. Key and Value Serializers
-        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+// // 4. Key and Value Serializers
+// configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+// StringSerializer.class);
+// configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+// JsonSerializer.class);
 
-        return new DefaultKafkaProducerFactory<>(configProps);
-    }
+// return new DefaultKafkaProducerFactory<>(configProps);
+// }
 
-    @Bean
-    public KafkaTemplate<String, Object> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
-    }
-}
+// @Bean
+// public KafkaTemplate<String, Object> kafkaTemplate() {
+// return new KafkaTemplate<>(producerFactory());
+// }
+// }
